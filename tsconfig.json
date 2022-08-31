@@ -1,6 +1,18 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "jsx":"react",
+    "paths":{
+      "assets/*":["/src/assets/*"],
+      "component/*":["/src/components/*"],
+      "navigation/*":["/src/navigation/*"],
+      "features/*":["/src/features/*"],
+      "styles/*":["/src/styles/*"],
+      "utils/*":["/src/utils/*"],
+      "type/*":["/src/types/*"],
+      "locale/*":["/src/locale/*"],
+    },
+    "typeRoots": ["src/types"]
   }
 }
