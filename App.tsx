@@ -1,25 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { configureAppStore } from './src/utils/provider/store/configureStore';
-import {Provider} from 'react-redux'
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import StackNavigation from "./src/navigation/stackNavigation";
+import { navigationRef } from "./src/navigation/navigationHelper";
+import { configureAppStore } from "./src/utils/provider/store/configureStore";
+import { Provider } from "react-redux";
+import { enableScreens } from "react-native-screens";
+
+enableScreens();
+
 const store = configureAppStore();
 export default function App() {
+  const routeNameRef = React.useRef<string>();
+
   return (
     <Provider store={store}>
-    <View style={styles.container}>
-      <Text>T-Shirt app</Text>
-      <StatusBar style="auto" />
-    </View>
+      <NavigationContainer
+        ref={navigationRef}
+        onReady={() => {
+          routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
+        }}
+        onStateChange={async () => {
+          const previousRouteName = routeNameRef.current;
+          const currentRouteName =
+            navigationRef.current?.getCurrentRoute()?.name;
+            routeNameRef.current = currentRouteName;
+        }}
+      >
+        <StackNavigation />
+      </NavigationContainer>
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
