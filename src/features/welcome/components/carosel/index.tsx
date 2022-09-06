@@ -1,31 +1,72 @@
-import React from 'react';
-import {View,Text,Dimensions,StyleSheet} from 'react-native';
-import Animated, { Extrapolate, interpolate, useAnimatedStyle } from 'react-native-reanimated';
-
-import style from './style'
-interface Props{
-    index:number;
-    translateX:Animated.SharedValue<number>
+import React from "react";
+import { View, Text, Dimensions, StyleSheet, Image } from "react-native";
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+} from "react-native-reanimated";
+import Tshirt from "../assets/w.jpeg";
+import style from "./style";
+interface Props {
+  index: number;
+  translateX: Animated.SharedValue<number>;
+  pic: any;
 }
 
-const {height,width} = Dimensions.get("screen")
-const Carsole:React.FC<Props> = ({index,translateX}) =>{
-    const inputRange =[(index-1)*width,index*width,(index+1)*width]
-    const squreAnimatedStyle= useAnimatedStyle(()=>{
-        return{
-            transform:[{scale:interpolate(translateX.value,inputRange,[0,1,0],Extrapolate.CLAMP)}]
-        }
-    })
-        return (
-            <View
-            key={index.toString()}
-            style={[style.carsoleContiner,{backgroundColor:`rgba(0,0,255,0.${index+1})`}]}>
-            
-            <Animated.View style={[style.square,squreAnimatedStyle]}>
+const { height, width } = Dimensions.get("screen");
+const Carsole: React.FC<Props> = ({ index, translateX, pic }) => {
+  const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
+  const squreAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          scale: interpolate(
+            translateX.value,
+            inputRange,
+            [0, 1, 0],
+            Extrapolate.CLAMP
+          ),
+        },
+      ],
+    };
+  });
 
-            </Animated.View>
-            </View>
-        )
-}
+const animatedRoateImage  = useAnimatedStyle(()=>{
+  
+  const progress = interpolate(
+    translateX.value,
+    inputRange,
+    [0.5,0,0.5],
+    Extrapolate.CLAMP
+  )
+  return{
+    transform:[
+      {
+        rotate:`${progress * 2 * Math.PI}rad`
+      }
+    ]
+  }
+})
 
-export  {Carsole};
+  //console.log("pic",Tshirt);
+  
+  return (
+    <View
+      key={index.toString()}
+      style={[
+        style.carsoleContiner,
+      ]}
+    >
+      <Animated.View
+       key={index.toString()}
+      style={[style.square, squreAnimatedStyle]}>
+        <Animated.Image
+          source={pic}
+          style={[{ height: 300, width: 300, resizeMode: "cover",borderRadius:300 },animatedRoateImage]}
+        />
+      </Animated.View>
+    </View>
+  );
+};
+
+export { Carsole };

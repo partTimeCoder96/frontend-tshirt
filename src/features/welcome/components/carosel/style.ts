@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
             alignItems:"center"
     },
     square:{
-        height:width * 0.7,
-        width:width * 0.7,
-        backgroundColor:"rgba(0,0,256,0.4)"
+         height:300,
+         width:300,
+        // backgroundColor:"rgba(0,0,256,0.4)"
     }
 })
 
