@@ -5,16 +5,16 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import Tshirt from "../assets/w.jpeg";
 import style from "./style";
 interface Props {
   index: number;
   translateX: Animated.SharedValue<number>;
   pic: any;
+  quote:string
 }
 
 const { height, width } = Dimensions.get("screen");
-const Carsole: React.FC<Props> = ({ index, translateX, pic }) => {
+const Carsole: React.FC<Props> = ({ index, translateX, pic,quote }) => {
   const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
   const squreAnimatedStyle = useAnimatedStyle(() => {
     return {
@@ -64,6 +64,9 @@ const animatedRoateImage  = useAnimatedStyle(()=>{
           source={pic}
           style={[{ height: 300, width: 300, resizeMode: "cover",borderRadius:300 },animatedRoateImage]}
         />
+        <Animated.Text style={style.quoteText}>
+          {quote}
+        </Animated.Text>
       </Animated.View>
     </View>
   );
